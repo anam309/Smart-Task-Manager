@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Smart Task Manager</string>
+    <string name="add_category">Add Category</string>
+    <string name="save_task">Save Task</string>
+    <string name="set_deadline">Set Deadline</string>
+    <string name="completed">Completed</string>
+    <string name="add_task">Add Task</string>
+</resources>
