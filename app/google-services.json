@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "279622895000",
+    "project_id": "smart-task-manager-db6b0",
+    "storage_bucket": "smart-task-manager-db6b0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279622895000:android:539f9902b1808051e457ed",
+        "android_client_info": {
+          "package_name": "com.tasks.smarttaskmanager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD39BeTd7GI4-HXmf0UzGPAFVkpyDJ8Pqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
