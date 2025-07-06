@@ -1,0 +1,13 @@
+ CATEGORY {
+    INTEGER id PK
+    TEXT name
+  }
+
+  TASK {
+    INTEGER id PK
+    TEXT title
+    TEXT description
+    DATE deadline
+    BOOLEAN completed
+    INTEGER categoryId FK
+  }
