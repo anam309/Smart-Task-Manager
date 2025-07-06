@@ -38,6 +38,14 @@
             android:text="@string/add_category"
             style="@style/Widget.Material3.Button.OutlinedButton"/>
     </LinearLayout>
+    <Spinner
+        android:id="@+id/spinner_category_filter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_container"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_categories"
@@ -50,9 +58,9 @@
         android:importantForAccessibility="no"
         android:scrollbars="none"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/button_container"
+        app:layout_constraintTop_toBottomOf="@id/spinner_category_filter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_tasks"
