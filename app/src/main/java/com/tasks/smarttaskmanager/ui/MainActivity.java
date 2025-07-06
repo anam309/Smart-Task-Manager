@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     private List<Task> latestTasks = null;
     private List<Category> latestCategories = null;
     private static final String CHANNEL_ID = "task_notifications_channel";
+    private Spinner categoryFilterSpinner;
+    private int selectedCategoryId = -1;
+
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -73,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         checkExactAlarmPermission();
 
         Button addTaskButton = findViewById(R.id.btn_add_task);
+        categoryFilterSpinner = findViewById(R.id.spinner_category_filter);
         Button addCategoryButton = findViewById(R.id.btn_add_category);
         RecyclerView recyclerView = findViewById(R.id.recycler_tasks);
 
@@ -138,8 +143,40 @@ public class MainActivity extends AppCompatActivity {
 
         taskViewModel.getAllCategories().observe(this, categories -> {
             latestCategories = categories;
+
+            // Populate filter dropdown
+            List<String> categoryNames = new ArrayList<>();
+            categoryNames.add("All Categories");
+            for (Category category : categories) {
+                categoryNames.add(category.getName());
+            }
+
+            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item, categoryNames);
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            categoryFilterSpinner.setAdapter(spinnerAdapter);
+
+            categoryFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (position == 0) {
+                        selectedCategoryId = -1;
+                    } else {
+                        selectedCategoryId = latestCategories.get(position - 1).getId();
+                    }
+                    maybeUpdateUI();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    selectedCategoryId = -1;
+                    maybeUpdateUI();
+                }
+            });
+
             maybeUpdateUI();
         });
+
     }
 
     private void maybeUpdateUI() {
@@ -151,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
 
     private List<TaskDisplayItem> groupTasksByCategory(List<Task> tasks, List<Category> categories) {
         List<TaskDisplayItem> displayItems = new ArrayList<>();
-
         Map<Integer, String> categoryMap = new HashMap<>();
         for (Category cat : categories) {
             categoryMap.put(cat.getId(), cat.getName());
@@ -163,6 +199,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         for (Category category : categories) {
+            if (selectedCategoryId != -1 && category.getId() != selectedCategoryId) continue;
+
             List<Task> tasksForCategory = tasksByCategory.get(category.getId());
             if (tasksForCategory != null && !tasksForCategory.isEmpty()) {
                 displayItems.add(new TaskDisplayItem(category.getName()));
